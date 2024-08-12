@@ -11,7 +11,7 @@ interface Props {
     image: string;
     id: string;
   };
-  communty: {
+  community: {
     name: string;
     image: string;
     id: string;
@@ -31,13 +31,13 @@ const ThreadCard = ({
   parentId,
   content,
   author,
-  communty,
+  community,
   createdAt,
   comments,
   isComment,
 }: Props) => {
   return (
-    <article className="flex w-full flex-col rounded-xl bg-dark-2 p-7">
+    <article className={`flex w-full flex-col rounded-xl  p-7 ${isComment ? "px-0 xs:px-7" : "bg-dark-2"}`}>
       <div className="flex items-start justify-between">
         <div className="flex w-full flex-1 flex-row gap-4">
           <div className="flex flex-col items-center  ">
