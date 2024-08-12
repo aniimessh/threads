@@ -20,6 +20,8 @@ import { ChangeEvent, useState } from "react";
 import { Textarea } from "../ui/textarea";
 import { isBase64Image } from "@/lib/utils";
 import { useUploadThing } from "@/lib/uploadthing";
+import { updateUser } from "@/lib/actions/user.actions";
+import { usePathname, useRouter } from "next/navigation";
 
 interface Props {
   user: {
@@ -44,6 +46,9 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
       bio: user?.bio || "",
     },
   });
+
+  const pathname = usePathname();
+  const router = useRouter();
 
   const handleImageChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -74,12 +79,27 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
     const blob = values.profile_photo;
     const hasImageChanged = isBase64Image(blob);
     if (hasImageChanged) {
-      const imgRes = await startUpload(files[0]);
+      const imgRes = await startUpload([files[0]]);
       if (imgRes && imgRes[0].fileUrl) {
         values.profile_photo = imgRes[0].fileUrl;
       }
     }
-    // TODO: update user profile
+
+    await updateUser({
+      userId: user.id,
+      username: values.username,
+      name: values.name,
+      bio: values.bio,
+      image: values.profile_photo,
+      path: pathname,
+    });
+
+    if (pathname === "/profile/edit") {
+      router.back();
+    } else {
+      router.push("/");
+    }
+
     console.log(values);
   }
   return (
