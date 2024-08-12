@@ -33,7 +33,7 @@ interface Props {
 
 const PostThread = ({ userId }: { userId: string }) => {
   const pathname = usePathname();
-  const router = useRouter();  
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(threadValidation),
     defaultValues: {
@@ -48,7 +48,7 @@ const PostThread = ({ userId }: { userId: string }) => {
       communityId: null,
       path: pathname,
     });
-    router.push("/")
+    router.push("/");
   }
   return (
     <>
