@@ -3,7 +3,7 @@ import Link from "next/link";
 
 interface Props {
   id: string;
-  currentUserId: string;
+  currentUserId: string | "";
   parentId: string | null;
   content: string;
   author: {
