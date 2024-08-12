@@ -8,13 +8,15 @@ const Page = async () => {
   if (!user) return null;
 
   const userInfo = await fetchUser(user.id);
+  const userInfoPlain = userInfo.toJSON();
+  const userId = userInfoPlain._id.toString();
 
   if (!userInfo?.onboarded) redirect("/onboarding");
 
   return (
     <>
       <h1 className="head-text">Create Thread Page</h1>;
-      <PostThread userId={userInfo._id} />
+      <PostThread userId={userId} />
     </>
   );
 };
