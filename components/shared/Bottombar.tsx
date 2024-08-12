@@ -10,7 +10,7 @@ const Bottombar = () => {
   const pathname = usePathname();
   return (
     <section className="bottombar">
-      <div className="bottombar-container">
+      <div className="bottombar-container flex justify-between">
         {sidebarLinks.map((link) => {
           const isActive =
             (pathname.includes(link.route) && link.route.length > 1) ||

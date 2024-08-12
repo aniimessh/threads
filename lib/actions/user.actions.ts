@@ -21,17 +21,32 @@ export async function updateUser({
     image,
     path,
 }: Params): Promise<void> {
-    connectToDB();
     try {
-        await User.findOneAndUpdate(
+        connectToDB();
+        
+        const result = await User.findOneAndUpdate(
             { id: userId },
             { username: username.toLowerCase(), name, image, bio, onboarded: true },
             { upsert: true }
-        );
+        );        
+        console.log("result", result) 
         if (path === "/profile/edit") {
             revalidatePath(path);
         }
     } catch (err: any) {
         throw new Error(`Failed to create/update user ${err.message}`);
+    }
+}
+
+export async function fetchUser(userId: string) {
+    try {
+        connectToDB();
+        return await User.findOne({ id: userId })
+        // .populate({
+        //     // path: "communites",
+        //     // model: "Community"
+        // });
+    } catch (err: any) {
+        throw new Error(`Failed to fetch user ${err.message}`)
     }
 }

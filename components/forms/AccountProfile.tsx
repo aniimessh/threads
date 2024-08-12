@@ -36,6 +36,7 @@ interface Props {
 }
 const AccountProfile = ({ user, btnTitle }: Props) => {
   const [files, setFiles] = useState<File[]>([]);
+  // console.log("Files", files);
   const { startUpload } = useUploadThing("media");
   const form = useForm({
     resolver: zodResolver(userValidation),
@@ -79,28 +80,31 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
     const blob = values.profile_photo;
     const hasImageChanged = isBase64Image(blob);
     if (hasImageChanged) {
-      const imgRes = await startUpload([files[0]]);
-      if (imgRes && imgRes[0].fileUrl) {
-        values.profile_photo = imgRes[0].fileUrl;
+      const imgRes = await startUpload(files);
+      // console.log("Image Response", imgRes);
+      if (imgRes && (imgRes[0] as any).url) {
+        values.profile_photo = (imgRes[0] as any).url;
       }
     }
 
-    await updateUser({
-      userId: user.id,
-      username: values.username,
-      name: values.name,
-      bio: values.bio,
-      image: values.profile_photo,
-      path: pathname,
-    });
+    try {
+      await updateUser({
+        userId: user.id,
+        username: values.username,
+        name: values.name,
+        bio: values.bio,
+        image: values.profile_photo,
+        path: pathname,
+      });
+    } catch (error) {
+      console.error("Failed to update user:", error);
+    }
 
     if (pathname === "/profile/edit") {
       router.back();
-    } else {
+    } else{
       router.push("/");
     }
-
-    console.log(values);
   }
   return (
     <div>
@@ -127,7 +131,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
                   ) : (
                     <Image
                       src={"/assets/profile.svg"}
-                      alt={field.value}
+                      alt={"profile-icon"}
                       width={24}
                       height={24}
                       className="object-contain"
