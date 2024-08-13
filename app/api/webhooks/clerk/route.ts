@@ -4,10 +4,10 @@
 
 // Resource: https://docs.svix.com/receiving/verifying-payloads/why
 // It's a good practice to verify webhooks. Above article shows why we should do it
-import { Webhook, type WebhookRequiredHeaders } from "svix";
+import { Webhook, WebhookRequiredHeaders } from "svix";
 import { headers } from "next/headers";
 
-import type { IncomingHttpHeaders } from "http";
+import { IncomingHttpHeaders } from "http";
 
 import { NextResponse } from "next/server";
 import {
@@ -60,6 +60,8 @@ export const POST = async (request: Request) => {
   }
 
   const eventType: EventType = evnt?.type!;
+
+  console.log("Event type", eventType);
 
   // Listen organization creation event
   if (eventType === "organization.created") {
