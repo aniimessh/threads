@@ -23,7 +23,7 @@ const Page = async () => {
                     parentId={post.parentId}
                     content={post.text}
                     author={post.author}
-                    communty={post.community}
+                    community={post.community}
                     createdAt={post.createdAt}
                     comments={post.children}
                     isComment={false}
