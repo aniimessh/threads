@@ -28,7 +28,7 @@ function CommunityCard({ id, name, username, imgUrl, bio, members }: Props) {
         </Link>
 
         <div>
-          <Link href={`/communities/${id}`}>
+          <Link href={`/communites/${id}`}>
             <h4 className="text-base-semibold text-light-1">{name}</h4>
           </Link>
           <p className="text-small-medium text-gray-1">@{username}</p>
