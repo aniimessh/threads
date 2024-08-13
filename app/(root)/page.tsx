@@ -1,10 +1,12 @@
 import ThreadCard from "@/components/cards/ThreadCard";
 import { fetchThreads } from "@/lib/actions/thread.action";
 import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 import { Key } from "react";
 
 const Page = async () => {
   const user = await currentUser();
+  if (!user) redirect("/sign-in");
   const result = await fetchThreads(1, 20);
   return (
     <>
